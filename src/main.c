@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void gameHeader() { // Imprime o cabeçalho do jogo
   printf("*********************************************\n");
@@ -28,31 +29,37 @@ void gamePlay() { // Lógica do jogo
 
 
   for (int i = 0; i < MAX_ATTEMPTS; i++) {
-    printf("\n-> Chute um número: ");
+    printf("\n<- Chute um número: ");
     scanf("%d", &kick);
 
     attempts++;
     
     if (kick == secretNumber) {
-      printf("\n*************************************************************************\n");
-      printf("* -> Parabéns! Você acertou o número secreto após %d tentativas!!!        *\n", attempts);
+      printf("\n***************************************************************************\n");
+      printf("* -> Parabéns! Você acertou o número secreto após %d tentativas!           *\n", attempts);
       printf("***************************************************************************\n");
       return;
     }
 
     if (kick > secretNumber) {
-      printf("O número chutado é maior que o número secreto. Você tem %d tentativas restantes.\n", MAX_ATTEMPTS - attempts);
+      printf("-> O número chutado (%d) é maior que o número secreto. Você tem %d tentativas restantes.\n", kick, MAX_ATTEMPTS - attempts);
     }
     
     if (kick < secretNumber) {
-      printf("O número chutado é menor que o número secreto. Você tem %d tentativas restantes.\n", MAX_ATTEMPTS - attempts);
+      printf("-> O número chutado (%d) é menor que o número secreto. Você tem %d tentativas restantes.\n", kick, MAX_ATTEMPTS - attempts);
     }
+
+    sleep(3);
+    system("clear"); // Limpa a tela para cada tentativa
   }
 
-  printf("\n*************************************************************\n");
-  printf("*   Suas chances acabaram. O número secreto era: %d\n", secretNumber);
-  printf("*   Fim de jogo! Obrigado por jogar.\n");
-  printf("*************************************************************\n");
+  printf("\n****************************************************************************************\n");
+  printf("*                                                                                      *\n");
+  printf("* -> Infelizmente, você não conseguiu adivinhar o número secreto em %d tentativas.     *\n", MAX_ATTEMPTS);
+  printf("*    ->  Suas chances acabaram. O número secreto era: %d                               *\n", secretNumber);
+  printf("*    ->  Fim de jogo! Obrigado por jogar.                                              *\n");
+  printf("*                                                                                      *\n");
+  printf("****************************************************************************************\n");
 }
 
 int main() {
