@@ -15,15 +15,44 @@ void gameRules() { // Imprime as regras do jogo
   printf("=> 4. O jogador vence se adivinhar o numero dentro do numero de tentativas.\n");
 }
 
+int generateRandomNumber() { // Gera um numero aleatorio entre 0 e 100
+  return rand() % 101;
+}
+
 void gamePlay() { // Lógica do jogo
-  int secretNumber = rand() % 101; // Gera um numero aleatorio entre 0 e 100
+  int secretNumber = generateRandomNumber();
+  const int MAX_ATTEMPTS = 10;
+  int attempts = 0;
   int kick;
   printf("Numero secreto: %d\n", secretNumber);
 
-  printf("\n-> Chute um número: ");
-  scanf("%d", &kick);
 
-  printf("<- O numero chutado foi: %d\n", kick);
+  for (int i = 0; i < MAX_ATTEMPTS; i++) {
+    printf("\n-> Chute um número: ");
+    scanf("%d", &kick);
+
+    attempts++;
+    
+    if (kick == secretNumber) {
+      printf("\n*************************************************************************\n");
+      printf("* -> Parabéns! Você acertou o número secreto após %d tentativas!!!        *\n", attempts);
+      printf("***************************************************************************\n");
+      return;
+    }
+
+    if (kick > secretNumber) {
+      printf("O número chutado é maior que o número secreto. Você tem %d tentativas restantes.\n", MAX_ATTEMPTS - attempts);
+    }
+    
+    if (kick < secretNumber) {
+      printf("O número chutado é menor que o número secreto. Você tem %d tentativas restantes.\n", MAX_ATTEMPTS - attempts);
+    }
+  }
+
+  printf("\n*************************************************************\n");
+  printf("*   Suas chances acabaram. O número secreto era: %d\n", secretNumber);
+  printf("*   Fim de jogo! Obrigado por jogar.\n");
+  printf("*************************************************************\n");
 }
 
 int main() {
